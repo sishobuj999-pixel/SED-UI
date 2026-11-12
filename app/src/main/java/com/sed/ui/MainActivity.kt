@@ -167,9 +167,8 @@ class MainActivity : Activity() {
 
     private fun loadApps() {
         val intent = Intent(Intent.ACTION_MAIN, null).addCategory(Intent.CATEGORY_LAUNCHER)
-        val flags = if (android.os.Build.VERSION.SDK_INT >= 33) PackageManager.ResolveInfoFlags.of(0) else null
-        val resolved = if (flags != null) packageManager.queryIntentActivities(intent, flags)
-            else @Suppress("DEPRECATION") packageManager.queryIntentActivities(intent, 0)
+        @Suppress("DEPRECATION")
+        val resolved = packageManager.queryIntentActivities(intent, PackageManager.MATCH_ALL)
         allApps.clear()
         resolved.mapNotNull { ri ->
             val pkg = ri.activityInfo?.packageName ?: return@mapNotNull null
